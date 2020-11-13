@@ -1,6 +1,31 @@
+import { translate } from '../../tools/translator';
 import { printLine } from './modules/print';
 
-console.log('Content script works!');
-console.log('Must reload extension for modifications to take effect.');
+const isOnTwitchPage = window.location.hostname.includes('twitch');
 
-printLine("Using the 'printLine' function from the Print Module");
+window.onload = () => {
+  if (isOnTwitchPage) {
+    setInterval(async () => {
+      const chatMessages = document.getElementsByClassName(
+        'chat-line__message'
+      );
+      for (let chatMessage of chatMessages) {
+        if (!chatMessage.getAttribute('translated')) {
+          const innerText = chatMessage.innerText;
+          const senderName = innerText.substring(0, innerText.indexOf(':') + 1);
+          const senderMessage = innerText.substring(
+            innerText.indexOf(':'),
+            innerText.length
+          );
+          const { translation: translatedSenderMessage } = await translate(
+            'korean',
+            'polish',
+            senderMessage
+          );
+          chatMessage.innerText = senderName + ': ' + translatedSenderMessage;
+          chatMessage.setAttribute('translated', 'true');
+        }
+      }
+    }, 100);
+  }
+};
