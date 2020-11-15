@@ -1,4 +1,4 @@
-export async function translate(sourceLang, targetLang, sentence) {
+export async function translate(sourceLang, targetLang, sentence, apiKey) {
   const checkedSentence = (() => {
     let sentenceToCheck = sentence;
     do {
@@ -13,7 +13,7 @@ export async function translate(sourceLang, targetLang, sentence) {
       headers: {
         'x-rapidapi-host':
           'translated-mymemory---translation-memory.p.rapidapi.com',
-        'x-rapidapi-key': 'eb933f782dmsh284070e30b3e02bp1a83c4jsnafd84ac40e6e',
+        'x-rapidapi-key': apiKey,
       },
     }
   )
@@ -23,3 +23,4 @@ export async function translate(sourceLang, targetLang, sentence) {
       translation: json.responseData.translatedText,
     }));
 }
+//'eb933f782dmsh284070e30b3e02bp1a83c4jsnafd84ac40e6e'

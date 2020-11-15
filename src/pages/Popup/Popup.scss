@@ -1,0 +1,84 @@
+a {
+  border: 1vmin solid;
+  width: 95%;
+  display: block;
+  text-align: center;
+  padding: 1.5vmin;
+  color: white;
+  border-color: #7c36e6;
+  background-color: #9147ff;
+  text-decoration: none;
+  font-size: 7vmin;
+  padding: 1vmin;
+  margin: 3vmin;
+  margin-left: 2vmin;
+  transition: border-color 0.35s ease-out, background-color 0.35s ease-out;
+  border-radius: 1vmin;
+}
+a:hover {
+  transition: border-color 0.35s ease-in, background-color 0.35s ease-in;
+  border: 1vmin solid;
+  border-color: #9147ff;
+  background-color: #7c36e6;
+}
+.translate-from,
+.translate-to {
+  line-height: 200%;
+  margin-left: 5.5vmin;
+}
+.translate-to {
+  margin-right: 9.1vmin;
+}
+.translate-language-wrapper {
+  display: flex;
+}
+label {
+  margin: 1vmin 0;
+  font-weight: bold;
+  font-size: 7vmin;
+}
+.label-input-wrapper-1 {
+  display: flex;
+  width: 100%;
+  border-top: 1vmin solid #9147ff;
+  border-bottom: 1vmin solid #9147ff;
+  margin-top: 3vmin;
+  padding: 1vmin 0;
+}
+.label-input-wrapper-2 {
+  display: flex;
+  width: 100%;
+  padding: 1vmin 0;
+}
+label.turn-translation-on {
+  margin-left: 55vmin;
+  font-size: 5.5vmin;
+  line-height: 105%;
+}
+label.translate-messages-before-sending {
+  margin-left: 35vmin;
+  font-size: 5.5vmin;
+  line-height: 90%;
+}
+
+.text-input {
+  width: 75%;
+  padding: 1vmin;
+  margin: 3vmin;
+  margin-left: 6vmin;
+  text-align: center;
+}
+.text-input.api-key {
+  width: 90%;
+  padding: 1vmin;
+  margin: 3vmin;
+  margin-left: 6vmin;
+}
+.checkbox-input {
+  transform: scale(0.75);
+}
+
+.translation-api-key {
+  text-align: center;
+  width: 100%;
+}
