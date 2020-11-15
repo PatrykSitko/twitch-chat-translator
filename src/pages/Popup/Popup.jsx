@@ -5,9 +5,20 @@ import './Popup.scss';
 
 chrome.runtime.sendMessage({ msg: 'get api key' });
 chrome.runtime.sendMessage({ msg: 'get translate from' });
+chrome.runtime.sendMessage({ msg: 'get translate to' });
+chrome.runtime.sendMessage({ msg: 'get turn translation on' });
+chrome.runtime.sendMessage({
+  msg: 'get turn translate messages before sending on',
+});
 const Popup = () => {
   const [apiKey, setApiKey] = useState(undefined);
   const [translateFrom, setTranslateFrom] = useState(undefined);
+  const [translateTo, setTranslateTo] = useState(undefined);
+  const [turnTranslationOn, setTurnTranslationOn] = useState(undefined);
+  const [
+    turnTranslateMessagesBeforeSendingOn,
+    setTurnTranslateMessagesBeforeSendingOn,
+  ] = useState(undefined);
   chrome.runtime.onMessage.addListener((request) => {
     if (request) {
       switch (request.msg) {
@@ -16,6 +27,15 @@ const Popup = () => {
           break;
         case 'translate from':
           setTranslateFrom(request.data);
+          break;
+        case 'translate to':
+          setTranslateTo(request.data);
+          break;
+        case 'turn translation on':
+          setTurnTranslationOn(request.data);
+          break;
+        case 'turn translate messages before sending on':
+          setTurnTranslateMessagesBeforeSendingOn(request.data);
           break;
         default:
           break;
@@ -73,10 +93,12 @@ const Popup = () => {
         <input
           className="text-input"
           type="text"
+          value={translateTo}
           onChange={(evt) => {
+            setTranslateTo(evt.target.value);
             chrome.runtime.sendMessage({
               from: 'twitch-chat-translator-popup',
-              msg: 'translate to',
+              msg: 'save translate to',
               data: evt.target.value,
             });
           }}
@@ -91,12 +113,14 @@ const Popup = () => {
         <input
           className="checkbox-input"
           type="checkbox"
+          checked={turnTranslationOn}
           name="turn-translation-on"
           onChange={(evt) => {
+            setTurnTranslationOn(evt.target.checked);
             chrome.runtime.sendMessage({
               from: 'twitch-chat-translator-popup',
-              msg: 'turn translation on and off',
-              data: evt.target.value,
+              msg: 'save turn translation on',
+              data: evt.target.checked,
             });
           }}
         />
@@ -111,12 +135,14 @@ const Popup = () => {
         <input
           className="checkbox-input"
           type="checkbox"
+          checked={turnTranslateMessagesBeforeSendingOn}
           name="translate-messages-before-sending"
           onChange={(evt) => {
+            setTurnTranslateMessagesBeforeSendingOn(evt.target.checked);
             chrome.runtime.sendMessage({
               from: 'twitch-chat-translator-popup',
-              msg: 'turn translate messages before sending on and off',
-              data: evt.target.value,
+              msg: 'save turn translate messages before sending on',
+              data: evt.target.checked,
             });
           }}
         />

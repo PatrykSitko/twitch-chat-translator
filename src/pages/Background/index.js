@@ -27,17 +27,37 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
           data: await getFromStorage('translate-from'),
         });
         break;
-      case 'translate to':
+      case 'save translate to':
         chrome.storage.local.set({ 'translate-to': request.data });
         break;
-      case 'turn translation on and off':
-        chrome.storage.local.set({
-          'turn-translation-on-and-off': request.data,
+      case 'get translate to':
+        chrome.runtime.sendMessage({
+          msg: 'translate to',
+          data: await getFromStorage('translate-to'),
         });
         break;
-      case 'turn translate messages before sending on and off':
+      case 'save turn translation on':
         chrome.storage.local.set({
-          'turn-translate-messages-before-sending-on-and-off': request.data,
+          'turn-translation-on': request.data,
+        });
+        break;
+      case 'get turn translation on':
+        chrome.runtime.sendMessage({
+          msg: 'turn translation on',
+          data: await getFromStorage('turn-translation-on'),
+        });
+        break;
+      case 'save turn translate messages before sending on':
+        chrome.storage.local.set({
+          'turn-translate-messages-before-sending-on': request.data,
+        });
+        break;
+      case 'get turn translate messages before sending on':
+        chrome.runtime.sendMessage({
+          msg: 'turn translate messages before sending on',
+          data: await getFromStorage(
+            'turn-translate-messages-before-sending-on'
+          ),
         });
         break;
       default:
