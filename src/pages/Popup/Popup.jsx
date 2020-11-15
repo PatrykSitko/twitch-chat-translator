@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/img/logo.svg';
 import Greetings from '../../containers/Greetings/Greetings';
 import './Popup.scss';
 
+chrome.runtime.sendMessage({ msg: 'get api key' });
+chrome.runtime.sendMessage({ msg: 'get translate from' });
 const Popup = () => {
+  const [apiKey, setApiKey] = useState(undefined);
+  const [translateFrom, setTranslateFrom] = useState(undefined);
+  chrome.runtime.onMessage.addListener((request) => {
+    if (request) {
+      switch (request.msg) {
+        case 'api key':
+          setApiKey(request.data);
+          break;
+        case 'translate from':
+          setTranslateFrom(request.data);
+          break;
+        default:
+          break;
+      }
+    }
+  });
+
   return (
     <div className="App">
       <a
@@ -16,10 +35,12 @@ const Popup = () => {
       <input
         className="text-input api-key"
         type="text"
+        value={apiKey}
         onChange={(evt) => {
+          setApiKey(evt.target.value);
           chrome.runtime.sendMessage({
             from: 'twitch-chat-translator-popup',
-            msg: 'api key',
+            msg: 'save api key',
             data: evt.target.value,
           });
         }}
@@ -32,10 +53,12 @@ const Popup = () => {
         <input
           className="text-input"
           type="text"
+          value={translateFrom}
           onChange={(evt) => {
+            setTranslateFrom(evt.target.value);
             chrome.runtime.sendMessage({
               from: 'twitch-chat-translator-popup',
-              msg: 'translate from',
+              msg: 'save translate from',
               data: evt.target.value,
             });
           }}

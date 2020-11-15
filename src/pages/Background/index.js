@@ -13,12 +13,19 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         chrome.storage.local.set({ 'api-key': request.data });
         break;
       case 'get api key':
-        chrome.tabs.sendMessage(sender.tab.id, {
-          apiKey: await getFromStorage('api-key'),
+        chrome.runtime.sendMessage({
+          msg: 'api key',
+          data: await getFromStorage('api-key'),
         });
-        return true;
-      case 'translate from':
+        break;
+      case 'save translate from':
         chrome.storage.local.set({ 'translate-from': request.data });
+        break;
+      case 'get translate from':
+        chrome.runtime.sendMessage({
+          msg: 'translate from',
+          data: await getFromStorage('translate-from'),
+        });
         break;
       case 'translate to':
         chrome.storage.local.set({ 'translate-to': request.data });
