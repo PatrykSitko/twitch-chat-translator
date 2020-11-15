@@ -1,13 +1,32 @@
 import '../../assets/img/icon-34.png';
 import '../../assets/img/icon-128.png';
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (request, sender) => {
   if (request) {
     switch (request.msg) {
       case 'get api key (from content script)':
-        const apiKey = await getFromStorage('api-key');
-        console.log('sending api key: ' + apiKey);
-        chrome.tabs.sendMessage(sender.tab.id, { apiKey });
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: 'api key',
+          data: await getFromStorage('api-key'),
+        });
+        break;
+      case 'get translate from (from content script)':
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: 'translate from',
+          data: await getFromStorage('translate-from'),
+        });
+        break;
+      case 'get translate to (from content script)':
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: 'translate to',
+          data: await getFromStorage('translate-to'),
+        });
+        break;
+      case 'get turn translation on (from content script)':
+        chrome.tabs.sendMessage(sender.tab.id, {
+          msg: 'turn translation on',
+          data: await getFromStorage('turn-translation-on'),
+        });
         break;
       case 'save api key':
         chrome.storage.local.set({ 'api-key': request.data });
